@@ -1,0 +1,4 @@
+[main]
+input = 'input_dir'
+output = 'output_dir'
+filename_mask = ['level', 'trade']

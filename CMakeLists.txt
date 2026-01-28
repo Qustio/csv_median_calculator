@@ -27,9 +27,9 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(spdlog)
 
-add_executable(cli)
-
-target_sources(cli PRIVATE src/main.cpp)
+add_executable(cli src/main.cpp)
+target_sources(cli PRIVATE src/app_config.hpp)
+target_sources(cli PRIVATE src/config_parser.cpp src/config_parser.hpp)
 target_link_libraries(
     cli PRIVATE
 	Boost::boost

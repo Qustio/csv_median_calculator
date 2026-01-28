@@ -1,9 +1,12 @@
 #include <filesystem>
-#include <iostream>
 #include <boost/program_options.hpp>
 #include <boost/accumulators/accumulators.hpp>
+#ifdef NDEBUG
+
+#endif
 #include <spdlog/spdlog.h>
-#include <toml++/toml.hpp>
+#include "app_config.hpp"
+#include "config_parser.hpp"
 
 namespace po = boost::program_options;
 
@@ -13,29 +16,36 @@ int main(int argc, char* argv[]) {
     desc.add_options()
         ("config, cfg", po::value<std::string>()->default_value("config.toml"), "path to config")
     ;
-    po::variables_map vm;
+    po::variables_map variables;
     try {
-        po::store(po::parse_command_line(argc, argv, desc), vm);
-        po::notify(vm); 
+        po::store(po::parse_command_line(argc, argv, desc), variables);
+        po::notify(variables); 
     } catch (const po::unknown_option& e) {
         spdlog::error(e.what());
         for (const auto& option : desc.options()) {
             spdlog::info(
                 "{} - {}",
-                option.get()->canonical_display_name(),
-                option.get()->description()
+                option->canonical_display_name(),
+                option->description()
             );
         }
         spdlog::shutdown();
         return -1;
     }
-    SPDLOG_DEBUG("{}", vm["config"]);
-    auto config_path = vm["config"].as<std::string>();
-    if (std::filesystem::exists(config_path)) {
-        SPDLOG_INFO("Чтение конфигурации {}", config_path);
-    } else {
-        SPDLOG_INFO("Конфигурация {} не найдена", config_path);
+    auto config_path = variables["config"].as<std::string>();
+    if (!std::filesystem::exists(config_path)) {
+        spdlog::error("Конфигурация {} не найдена", config_path);
         spdlog::shutdown();
         return -1;
     }
+	spdlog::info("Чтение конфигурации {}", config_path);
+	try {
+		AppConfig config = ConfigParser::load(config_path);
+		SPDLOG_DEBUG("Конфиг output: {}", config.output.value_or("none"));
+	} catch (const std::exception& e) {
+		spdlog::critical(e.what());
+		spdlog::shutdown();
+        return -1;
+    }
+	return 0;
 }
