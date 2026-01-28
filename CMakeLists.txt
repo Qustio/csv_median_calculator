@@ -31,9 +31,9 @@ add_executable(cli)
 
 target_sources(cli PRIVATE src/main.cpp)
 target_link_libraries(
-    cli PRIVATE 
+    cli PRIVATE
+	Boost::boost
     Boost::program_options
-    Boost::accumulators
     tomlplusplus::tomlplusplus
     spdlog::spdlog
 )
