@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.24)
-
 project(csv_median_calculator)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 if(NOT EXISTS "${CMAKE_BINARY_DIR}/.gitignore")
     file(CONFIGURE OUTPUT ".gitignore" CONTENT "*\n")
 endif()
