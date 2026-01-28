@@ -37,3 +37,6 @@ target_link_libraries(
     tomlplusplus::tomlplusplus
     spdlog::spdlog
 )
+target_compile_definitions(cli PRIVATE 
+    $<$<CONFIG:Debug>:SPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_DEBUG>
+)
