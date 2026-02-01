@@ -39,6 +39,7 @@ FetchContent_MakeAvailable(rapidcsv)
 
 add_executable(cli src/main.cpp)
 target_sources(cli PRIVATE src/app_config.hpp)
+target_sources(cli PRIVATE src/price_timestemp_data.hpp)
 target_sources(cli PRIVATE src/config_parser.cpp src/config_parser.hpp)
 target_link_libraries(
     cli PRIVATE
