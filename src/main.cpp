@@ -5,6 +5,7 @@
 #include "app_config.hpp"
 #include "config_parser.hpp"
 #include "csv_parser.hpp"
+#include "median_calculator.hpp"
 
 namespace po = boost::program_options;
 
@@ -50,10 +51,18 @@ int main(int argc, char* argv[]) {
 	try {
 		parser.find_files();
 		parser.read_data();
+		//sort
 	} catch (const std::exception& e) {
 		spdlog::critical(e.what());
 		spdlog::shutdown();
         return -1;
+	}
+	MedianCalculator calculator;
+	for (const auto& timestemp : parser.get_timestamps()) {
+		auto median = calculator.calculate_next(timestemp);
+		if (median) {
+			spdlog::info(fmt::format("Медиана изменена - {}", median.value()));
+		}
 	}
 	return 0;
 }
