@@ -1,12 +1,10 @@
 #include <filesystem>
 #include <boost/program_options.hpp>
 #include <boost/accumulators/accumulators.hpp>
-#ifdef NDEBUG
-
-#endif
 #include <spdlog/spdlog.h>
 #include "app_config.hpp"
 #include "config_parser.hpp"
+#include "csv_parser.hpp"
 
 namespace po = boost::program_options;
 
@@ -43,6 +41,15 @@ int main(int argc, char* argv[]) {
 	try {
 		config = ConfigParser::load(config_path);
 		SPDLOG_DEBUG("Конфиг output: {}", config.output);
+	} catch (const std::exception& e) {
+		spdlog::critical(e.what());
+		spdlog::shutdown();
+        return -1;
+    }
+	CsvParser parser(config);
+	try {
+		parser.find_files();
+		parser.read_data();
 	} catch (const std::exception& e) {
 		spdlog::critical(e.what());
 		spdlog::shutdown();
