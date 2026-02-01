@@ -26,6 +26,12 @@ FetchContent_Declare(
     GIT_TAG        v1.17.0
 )
 FetchContent_MakeAvailable(spdlog)
+FetchContent_Declare(
+    rapidcsv 
+    GIT_REPOSITORY https://github.com/d99kris/rapidcsv.git
+    GIT_TAG        v8.90
+)
+FetchContent_MakeAvailable(rapidcsv)
 
 add_executable(cli src/main.cpp)
 target_sources(cli PRIVATE src/app_config.hpp)
@@ -36,6 +42,7 @@ target_link_libraries(
     Boost::program_options
     tomlplusplus::tomlplusplus
     spdlog::spdlog
+	rapidcsv
 )
 target_compile_definitions(cli PRIVATE 
     $<$<CONFIG:Debug>:SPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_DEBUG>
