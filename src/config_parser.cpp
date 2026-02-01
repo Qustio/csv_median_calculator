@@ -29,7 +29,7 @@ AppConfig ConfigParser::load(const std::string &path) {
     }
 	return AppConfig{
 		.input = input.value(),
-		.output = output,
+		.output = output.value_or("output"),
 		.filename_mask = filename_mask
 	};
 }

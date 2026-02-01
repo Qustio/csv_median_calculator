@@ -39,13 +39,14 @@ int main(int argc, char* argv[]) {
         return -1;
     }
 	spdlog::info("Чтение конфигурации {}", config_path);
+	AppConfig config;
 	try {
-		AppConfig config = ConfigParser::load(config_path);
-		SPDLOG_DEBUG("Конфиг output: {}", config.output.value_or("none"));
+		config = ConfigParser::load(config_path);
+		SPDLOG_DEBUG("Конфиг output: {}", config.output);
 	} catch (const std::exception& e) {
 		spdlog::critical(e.what());
 		spdlog::shutdown();
         return -1;
-    }
+	}
 	return 0;
 }
