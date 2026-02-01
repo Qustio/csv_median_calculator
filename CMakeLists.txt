@@ -42,7 +42,7 @@ target_sources(cli PRIVATE src/app_config.hpp)
 target_sources(cli PRIVATE src/config_parser.cpp src/config_parser.hpp)
 target_link_libraries(
     cli PRIVATE
-	Boost::boost
+	Boost::headers
     Boost::program_options
     tomlplusplus::tomlplusplus
     spdlog::spdlog
