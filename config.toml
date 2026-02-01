@@ -1,4 +1,4 @@
 [main]
-input = 'input_dir'
-output = 'output_dir'
+input = 'examples/input'
+output = 'examples/output'
 filename_mask = ['level', 'trade']
