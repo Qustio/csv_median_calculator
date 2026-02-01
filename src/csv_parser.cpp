@@ -39,15 +39,15 @@ void CsvParser::read_data() {
 			rapidcsv::SeparatorParams(';')
 		);
 		const auto row_count = doc.GetRowCount();
-		_timestemps.reserve(_timestemps.size() + row_count);
+		_timestamps.reserve(_timestamps.size() + row_count);
 		for (size_t index = 0; index < row_count; ++index) {
 			PriceTimestempData timestemp{
 				.timestemp = doc.GetCell<long long int>("receive_ts", index),
 				.price = doc.GetCell<double>("price", index),
 			};
-			_timestemps.push_back(timestemp);
+			_timestamps.push_back(timestemp);
 		}
 		SPDLOG_DEBUG("Прочитано {} записей из {}", row_count, input_file.string());
 	}
-	spdlog::info(fmt::format("Прочитано записей: {}", _timestemps.size()));
+	spdlog::info(fmt::format("Прочитано записей: {}", _timestamps.size()));
 }
