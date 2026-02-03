@@ -12,7 +12,6 @@ Set(FETCHCONTENT_QUIET FALSE)
 FetchContent_Declare(
     Boost
     URL https://github.com/boostorg/boost/releases/download/boost-1.90.0/boost-1.90.0-cmake.tar.gz
-    FIND_PACKAGE_ARGS COMPONENTS program_options
 )
 FetchContent_MakeAvailable(Boost)
 FetchContent_Declare(
@@ -46,6 +45,7 @@ target_sources(cli PRIVATE src/median_calculator.cpp src/median_calculator.hpp s
 target_link_libraries(
     cli PRIVATE
 	Boost::headers
+	Boost::accumulators
     Boost::program_options
     tomlplusplus::tomlplusplus
     spdlog::spdlog
