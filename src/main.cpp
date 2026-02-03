@@ -48,21 +48,18 @@ int main(int argc, char* argv[]) {
         return -1;
     }
 	CsvParser parser(config);
+	MedianCalculator calculator;
 	try {
-		parser.find_files();
-		parser.read_data();
-		//sort
+		for (const auto& timestemp : parser.read_data()) {
+			auto median = calculator.calculate_next(timestemp);
+			if (median) {
+				spdlog::info(fmt::format("Медиана изменена - {}", median.value()));
+			}
+		}
 	} catch (const std::exception& e) {
 		spdlog::critical(e.what());
 		spdlog::shutdown();
         return -1;
-	}
-	MedianCalculator calculator;
-	for (const auto& timestemp : parser.get_timestamps()) {
-		auto median = calculator.calculate_next(timestemp);
-		if (median) {
-			spdlog::info(fmt::format("Медиана изменена - {}", median.value()));
-		}
 	}
 	return 0;
 }
