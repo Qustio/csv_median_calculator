@@ -1,11 +1,14 @@
 #include <filesystem>
 #include <boost/program_options.hpp>
 #include <boost/accumulators/accumulators.hpp>
+#include <fstream>
+#include <istream>
 #include <spdlog/spdlog.h>
 #include "app_config.hpp"
 #include "config_parser.hpp"
 #include "csv_parser.hpp"
 #include "median_calculator.hpp"
+#include "csv_writer.hpp"
 
 namespace po = boost::program_options;
 
@@ -49,11 +52,18 @@ int main(int argc, char* argv[]) {
     }
 	CsvParser parser(config);
 	MedianCalculator calculator;
+    auto output =  fs::path(config.output) / "result.csv";
+    if (!fs::exists(output)) {
+        std::ofstream file(output);
+    }
+	CsvWriter writer(output);
+
 	try {
 		for (const auto& timestemp : parser.read_data()) {
 			auto median = calculator.calculate_next(timestemp);
 			if (median) {
 				spdlog::info(fmt::format("Медиана изменена - {}", median.value()));
+				writer.write_median_change(timestemp.timestemp, median.value());
 			}
 		}
 	} catch (const std::exception& e) {

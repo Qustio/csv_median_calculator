@@ -9,7 +9,6 @@
 #include "app_config.hpp"
 #include "price_timestemp_data.hpp"
 #include "rapidcsv.h"
-#include "spdlog/spdlog.h"
 
 namespace fs = std::filesystem;
 
