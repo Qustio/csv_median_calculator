@@ -4,10 +4,10 @@
 #include <string>
 #include <vector>
 
-struct AppConfig {
+struct app_config {
 	std::string input;
 	std::string output;
-    std::vector<std::string> filename_mask;
+	std::vector<std::string> filename_mask;
 };
 
 #endif // APP_CONFIG

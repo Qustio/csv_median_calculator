@@ -4,9 +4,9 @@
 #include <string>
 #include "app_config.hpp"
 
-class ConfigParser {
+class config_parser {
 public:
-    static AppConfig load(const std::string& path);
+	static app_config load(const std::string &path_);
 };
 
-#endif // APP_CONFIG
+#endif // CONFIG_PARSER

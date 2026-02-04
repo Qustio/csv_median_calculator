@@ -1,23 +1,26 @@
 #ifndef MEDIAN_CALCULATOR
 #define MEDIAN_CALCULATOR
 
-#include <boost/accumulators/framework/accumulator_set.hpp>
 #include <boost/accumulators/accumulators.hpp>
+#include <boost/accumulators/framework/accumulator_set.hpp>
 #include <boost/accumulators/framework/features.hpp>
 #include <boost/accumulators/statistics/count.hpp>
-#include <boost/accumulators/statistics/stats.hpp>
 #include <boost/accumulators/statistics/median.hpp>
-
-#include "price_timestemp_data.hpp"
+#include <boost/accumulators/statistics/stats.hpp>
 #include "incremental_median.hpp"
+#include "price_timestemp_data.hpp"
 
 namespace acc = boost::accumulators;
 
-class MedianCalculator{
+class median_calculator {
 public:
-	std::optional<double> calculate_next(PriceTimestempData _data);
+	std::optional<double> calculate_next(price_timestemp_data data_);
+
 private:
-	acc::accumulator_set<double, acc::features<acc::tag::median, acc::tag::incremental_median>> _accumulator_set;
+	acc::accumulator_set<
+		double,
+		acc::features<acc::tag::median, acc::tag::incremental_median>>
+		_accumulator_set;
 	double _last_median = 0;
 };
 

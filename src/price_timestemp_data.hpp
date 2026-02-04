@@ -1,7 +1,7 @@
 #ifndef TIMESTEMP_DATA
 #define TIMESTEMP_DATA
 
-struct PriceTimestempData {
+struct price_timestemp_data {
 	long long int timestemp;
 	double price;
 };
